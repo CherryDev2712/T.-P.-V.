@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<%- include('load/head') %> <!-- Aquí debe estar el CSS de Bootstrap -->
+    <body> <!-- Asegúrate de tener un <body> -->
+        <%- include('load/nav') %>
+        <main class="main-container">
+            <%- include('load/side-bar') %>
+        <!-- Contenido principal -->
+        <div class="content">
+            <h1>Cobrar productos</h1>
+            <p>Aquí abajo deberían ir las cards de productos</p>
+            
+            <div class="producto-container" id="productos">
+                <!-- Las cards de productos se agregarán aquí dinámicamente -->
+            </div>
+        </div>
+
+        <!-- Botón flotante para agregar productos -->
+        <button class="btn btn-dark btn-content" data-bs-toggle="modal" data-bs-target="#productoModal">
+            <span>+</span>
+        </button>
+    </main>
+
+    <!-- Modal para añadir producto -->
+    <div class="modal fade" id="productoModal" tabindex="-1" aria-labelledby="productoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productoModalLabel">Añadir Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="productoForm">
+                        <div class="mb-3">
+                            <label for="nombreProducto" class="form-label">Nombre del producto</label>
+                            <input type="text" class="form-control" id="nombreProducto" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="precioProducto" class="form-label">Precio</label>
+                            <input type="number" class="form-control" id="precioProducto" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="imagenProducto" class="form-label">Imagen del producto</label>
+                            <input type="file" class="form-control" id="imagenProducto" accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+        </main>
+
+        <!-- Modal para añadir producto -->
+        <div class="modal fade" id="productoModal" tabindex="-1" aria-labelledby="productoModalLabel" aria-hidden="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="productoModalLabel">Añadir Producto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="productoForm">
+                            <div class="mb-3">
+                                <label for="nombreProducto" class="form-label">Nombre del producto</label>
+                                <input type="text" class="form-control" id="nombreProducto" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="precioProducto" class="form-label">Precio</label>
+                                <input type="number" class="form-control" id="precioProducto" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="imagenProducto" class="form-label">Imagen del producto</label>
+                                <input type="file" class="form-control" id="imagenProducto" accept="image/*">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap JS (al final del body) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
+
+<style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+        }
+        .main-container {
+            display: flex;
+            height: calc(100vh - 60px);
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            border-radius: 20px;
+            background-color: #f8f9fa;
+        }
+        .producto-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .btn-content {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .card {
+            margin: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: white;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-img-top {
+            height: 180px;
+            object-fit: cover;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .card-body {
+            padding: 15px;
+        }
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .card-text {
+            color: #666;
+            font-size: 1rem;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+</style>
+
+<script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const productoForm = document.getElementById("productoForm");
+            const productoContainer = document.getElementById("productos");
+            const productoModal = new bootstrap.Modal(document.getElementById('productoModal'));
+
+            productoForm.addEventListener("submit", (event) => {
+                event.preventDefault();
+
+                const nombre = document.getElementById("nombreProducto").value;
+                const precio = document.getElementById("precioProducto").value;
+                const imagenInput = document.getElementById("imagenProducto");
+                const imagenURL = imagenInput.files.length > 0 ? URL.createObjectURL(imagenInput.files[0]) : "https://via.placeholder.com/150";
+
+                // Crear card con la información
+                const card = document.createElement("div");
+                card.classList.add("card");
+                card.style.width = "18rem";
+                card.innerHTML = `
+                    <img src="${imagenURL}" class="card-img-top" alt="${nombre}">
+                    <div class="card-body">
+                        <h5 class="card-title">${nombre}</h5>
+                        <p class="card-text">Precio: $${precio}</p>
+                    </div>
+                `;
+
+                // Agregar la card al contenedor
+                productoContainer.appendChild(card);
+                alert('Producto agregado exitosamente.');
+                productoForm.reset();
+
+                return
+                // Cerrar el modal y resetear formulario
+                productoModal.hide();
+
+            });
+        });
+</script>
